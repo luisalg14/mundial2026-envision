@@ -126,6 +126,272 @@
     awayFlag: "https://flagcdn.com/w160/za.png"
   };
 
+  const fallbackFinalResults = [
+    {
+      home: "México",
+      away: "Sudáfrica",
+      homeCode: "MEX",
+      awayCode: "RSA",
+      status: "FT",
+      kickoff: "2026-06-11T20:00:00-05:00",
+      goals: {
+        home: 2,
+        away: 0
+      }
+    }
+  ];
+
+  const flagUrls = {
+    MEX: "https://flagcdn.com/w40/mx.png",
+    RSA: "https://flagcdn.com/w40/za.png"
+  };
+
+  const monthIndexes = {
+    ene: 0,
+    feb: 1,
+    mar: 2,
+    abr: 3,
+    may: 4,
+    jun: 5,
+    jul: 6,
+    ago: 7,
+    sep: 8,
+    oct: 9,
+    nov: 10,
+    dic: 11
+  };
+
+  function normalizeTimeText(value) {
+    return String(value || "")
+      .replace(/\u00a0/g, " ")
+      .replace(/\u2212/g, "-")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function parseMatchDateTime(dateText, timeText) {
+    const dateMatch = normalizeTimeText(dateText).toLowerCase().match(/^(\d{1,2})\s+([a-záéíóúñ]{3})\s+(\d{4})$/i);
+    const timeMatch = normalizeTimeText(timeText).toLowerCase().match(/^(\d{1,2}):(\d{2})\s*([ap])\.?\s*m\.?(?:\s*utc([+-]\d{1,2}))?/i);
+
+    if (!dateMatch || !timeMatch) return null;
+
+    const day = Number(dateMatch[1]);
+    const month = monthIndexes[dateMatch[2].normalize("NFD").replace(/[\u0300-\u036f]/g, "").slice(0, 3)];
+    const year = Number(dateMatch[3]);
+    let hour = Number(timeMatch[1]);
+    const minute = Number(timeMatch[2]);
+    const meridiem = timeMatch[3];
+    const utcOffset = timeMatch[4] ? Number(timeMatch[4]) : -5;
+
+    if (!Number.isInteger(month)) return null;
+    if (meridiem === "p" && hour !== 12) hour += 12;
+    if (meridiem === "a" && hour === 12) hour = 0;
+
+    return new Date(Date.UTC(year, month, day, hour - utcOffset, minute));
+  }
+
+  function getMatchApiDate(match) {
+    const dateMatch = normalizeTimeText(match.date).toLowerCase().match(/^(\d{1,2})\s+([a-záéíóúñ]{3})\s+(\d{4})$/i);
+
+    if (!dateMatch) return "2026-06-11";
+
+    const day = String(Number(dateMatch[1])).padStart(2, "0");
+    const monthIndex = monthIndexes[dateMatch[2].normalize("NFD").replace(/[\u0300-\u036f]/g, "").slice(0, 3)];
+
+    if (!Number.isInteger(monthIndex)) return "2026-06-11";
+
+    const month = monthIndex + 1;
+    return `${dateMatch[3]}-${String(month).padStart(2, "0")}-${day}`;
+  }
+
+  function getScheduledMatches() {
+    return Array.from(document.querySelectorAll(".match-list-full .match"))
+      .map(readMatchCard)
+      .map((match) => ({
+        ...match,
+        startsAt: parseMatchDateTime(match.date, match.time)
+      }))
+      .filter((match) => match.startsAt instanceof Date && !Number.isNaN(match.startsAt.getTime()))
+      .sort((a, b) => a.startsAt - b.startsAt);
+  }
+
+  function getRelevantMatch(matches, now = new Date()) {
+    if (!matches.length) return currentSimMatch;
+
+    const finalMatchKeys = new Set(fallbackFinalResults.map((fixture) => `${fixture.homeCode}-${fixture.awayCode}`));
+    const currentIndex = matches.findIndex((match, index) => {
+      const nextMatch = matches[index + 1];
+      const nextStart = nextMatch?.startsAt || new Date(match.startsAt.getTime() + (4 * 60 * 60 * 1000));
+      const isFinal = finalMatchKeys.has(`${match.home}-${match.away}`);
+      return now >= match.startsAt && now < nextStart && !isFinal;
+    });
+
+    if (currentIndex >= 0) return matches[currentIndex];
+
+    return matches.find((match) => match.startsAt > now) || matches[matches.length - 1];
+  }
+
+  function refreshCurrentSimulatorMatch() {
+    const nextMatch = getRelevantMatch(getScheduledMatches());
+
+    if (`${nextMatch.home}-${nextMatch.away}` === `${currentSimMatch.home}-${currentSimMatch.away}`) return false;
+
+    currentSimMatch = nextMatch;
+    renderSimulatorMatch(currentSimMatch);
+    restoreScorePrediction();
+    return true;
+  }
+
+  function getBogotaDate(value = new Date()) {
+    const parts = new Intl.DateTimeFormat("en-CA", {
+      timeZone: "America/Bogota",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    }).formatToParts(value);
+    const year = parts.find((part) => part.type === "year")?.value;
+    const month = parts.find((part) => part.type === "month")?.value;
+    const day = parts.find((part) => part.type === "day")?.value;
+
+    return `${year}-${month}-${day}`;
+  }
+
+  function fixtureDateToMatchInfo(fixture) {
+    const kickoff = fixture.kickoff ? new Date(fixture.kickoff) : null;
+
+    if (!kickoff || Number.isNaN(kickoff.getTime())) {
+      return {
+        date: getBogotaDate(),
+        time: "Hora por confirmar"
+      };
+    }
+
+    const date = new Intl.DateTimeFormat("es-CO", {
+      timeZone: "America/Bogota",
+      day: "2-digit",
+      month: "short",
+      year: "numeric"
+    }).format(kickoff);
+    const time = new Intl.DateTimeFormat("es-CO", {
+      timeZone: "America/Bogota",
+      hour: "numeric",
+      minute: "2-digit"
+    }).format(kickoff);
+
+    return { date, time: `${time} Colombia` };
+  }
+
+  function pickFixtureForNow(fixtures, now = new Date()) {
+    const liveStatuses = ["1H", "HT", "2H", "ET", "BT", "P", "SUSP", "INT", "LIVE"];
+    const sortedFixtures = fixtures
+      .filter((fixture) => fixture.kickoff)
+      .sort((a, b) => new Date(a.kickoff) - new Date(b.kickoff));
+    const liveFixture = sortedFixtures.find((fixture) => liveStatuses.includes(fixture.status));
+
+    if (liveFixture) return liveFixture;
+
+    return sortedFixtures.find((fixture) => new Date(fixture.kickoff) > now) || sortedFixtures[sortedFixtures.length - 1] || null;
+  }
+
+  function getFinalFixtures(fixtures) {
+    const finalStatuses = ["FT", "AET", "PEN"];
+
+    return fixtures
+      .filter((fixture) => finalStatuses.includes(fixture.status))
+      .filter((fixture) => Number.isInteger(fixture.goals?.home) && Number.isInteger(fixture.goals?.away))
+      .sort((a, b) => new Date(b.kickoff || 0) - new Date(a.kickoff || 0));
+  }
+
+  function formatFixtureTime(fixture) {
+    const kickoff = fixture.kickoff ? new Date(fixture.kickoff) : null;
+
+    if (!kickoff || Number.isNaN(kickoff.getTime())) return "Finalizado";
+
+    return new Intl.DateTimeFormat("es-CO", {
+      timeZone: "America/Bogota",
+      hour: "numeric",
+      minute: "2-digit"
+    }).format(kickoff);
+  }
+
+  function renderRecentResults(fixtures) {
+    const container = document.getElementById("recentResults");
+
+    if (!container) return;
+
+    const finalFixtures = getFinalFixtures(fixtures).slice(0, 3);
+
+    if (!finalFixtures.length) {
+      container.innerHTML = `<div class="recent-result-empty">Aún no hay partidos finalizados para mostrar.</div>`;
+      return;
+    }
+
+    container.innerHTML = finalFixtures.map((fixture) => {
+      const homeFlag = flagUrls[fixture.homeCode] || "";
+      const awayFlag = flagUrls[fixture.awayCode] || "";
+
+      return `
+      <div>
+        <div class="recent-result">
+          <span class="recent-result-team">${homeFlag ? `<img class="recent-result-flag" alt="" src="${homeFlag}">` : ""}${fixture.home}</span>
+          <span class="recent-result-score">${fixture.goals.home} - ${fixture.goals.away}</span>
+          <span class="recent-result-team">${fixture.away}${awayFlag ? `<img class="recent-result-flag" alt="" src="${awayFlag}">` : ""}</span>
+        </div>
+      </div>
+    `;
+    }).join("");
+  }
+
+  function renderRecentResultsFallback(message) {
+    const container = document.getElementById("recentResults");
+
+    if (!container) return;
+
+    if (fallbackFinalResults.length) {
+      renderRecentResults(fallbackFinalResults);
+      return;
+    }
+
+    container.innerHTML = `<div class="recent-result-empty">${message}</div>`;
+  }
+
+  function renderApiFixture(fixture) {
+    const matchInfo = fixtureDateToMatchInfo(fixture);
+
+    currentSimMatch = {
+      ...currentSimMatch,
+      home: fixture.home || currentSimMatch.home,
+      away: fixture.away || currentSimMatch.away,
+      date: matchInfo.date,
+      time: matchInfo.time,
+      group: "Mundial 2026",
+      venue: "Sede oficial"
+    };
+    renderSimulatorMatch(currentSimMatch);
+    applyLiveScore(fixture);
+  }
+
+  async function syncRealWorldCupDay() {
+    const params = new URLSearchParams({
+      date: getBogotaDate(),
+      mode: "day"
+    });
+    const response = await fetch(`${liveScoreConfig.endpoint}?${params.toString()}`);
+
+    if (!response.ok) throw new Error("No se pudo consultar el calendario real.");
+
+    const data = await response.json();
+
+    if (!data.ok || data.mode !== "day" || !Array.isArray(data.fixtures) || !data.fixtures.length) return null;
+
+    renderRecentResults(data.fixtures);
+
+    return {
+      selected: pickFixtureForNow(data.fixtures),
+      fixtures: data.fixtures
+    };
+  }
+
   function savePrediction(key, value) {
     try {
       localStorage.setItem(key, JSON.stringify(value));
@@ -214,6 +480,8 @@
 
       number.textContent = card.value;
       label.textContent = card.label;
+      box.classList.toggle("is-predice-card", card.value === "PREDICE");
+      box.classList.toggle("is-juega-card", card.value === "JUEGA");
       box.setAttribute("role", "button");
       box.setAttribute("tabindex", "0");
       box.setAttribute("aria-label", `Ir a ${card.label}`);
@@ -240,6 +508,8 @@
     document.querySelectorAll("#countdown .time-box").forEach((box, index) => {
       const label = box.querySelector(".time-label");
       if (label) label.textContent = labels[index] || "";
+      box.classList.remove("is-predice-card");
+      box.classList.remove("is-juega-card");
       box.removeAttribute("role");
       box.removeAttribute("tabindex");
       box.removeAttribute("aria-label");
@@ -264,11 +534,11 @@
   }
 
   function initializeLiveSimulator() {
-    const firstMatch = document.querySelector(".match-list-full .match");
+    const matches = getScheduledMatches();
     const saveButton = document.getElementById("saveScorePrediction");
 
-    if (firstMatch) {
-      currentSimMatch = readMatchCard(firstMatch);
+    if (matches.length) {
+      currentSimMatch = getRelevantMatch(matches);
       renderSimulatorMatch(currentSimMatch);
     }
 
@@ -359,8 +629,20 @@
     status.textContent = "Actualizando";
 
     try {
+      const realDay = await syncRealWorldCupDay();
+      const realFixture = realDay?.selected;
+
+      if (realFixture) {
+        renderApiFixture(realFixture);
+        status.textContent = realFixture.status === "FT" ? "Finalizado" : realFixture.elapsed ? `${realFixture.elapsed}'` : "Oficial";
+        status.title = "Datos reales del Mundial 2026.";
+        return;
+      }
+
+      renderRecentResultsFallback("Conecta la API real para ver resultados finales oficiales.");
+      refreshCurrentSimulatorMatch();
       const params = new URLSearchParams({
-        date: "2026-06-11",
+        date: getMatchApiDate(currentSimMatch),
         home: currentSimMatch.home,
         away: currentSimMatch.away
       });
@@ -371,14 +653,15 @@
       const data = await response.json();
 
       if (!data.ok) {
-        status.textContent = data.mode === "demo" ? "Predicción activa" : "Por confirmar";
+        status.textContent = data.mode === "demo" ? "Sin API real" : "Por confirmar";
         status.title = data.message || "El marcador en vivo se actualizará cuando esté disponible.";
         return;
       }
 
       applyLiveScore(data);
-      status.textContent = "En vivo";
+      status.textContent = data.status === "FT" ? "Finalizado" : data.elapsed ? `${data.elapsed}'` : "En vivo";
     } catch (error) {
+      renderRecentResultsFallback("Los resultados oficiales no están disponibles en este momento.");
       status.textContent = "Por confirmar";
       status.title = "El marcador en vivo se actualizará cuando esté disponible.";
     }
@@ -387,9 +670,13 @@
   function applyLiveScore(fixture) {
     const homeScore = document.getElementById("score-home");
     const awayScore = document.getElementById("score-away");
+    const homeName = document.getElementById("simHomeName");
+    const awayName = document.getElementById("simAwayName");
     const goalsHome = fixture.goals?.home;
     const goalsAway = fixture.goals?.away;
 
+    if (fixture.home && homeName) homeName.textContent = fixture.home;
+    if (fixture.away && awayName) awayName.textContent = fixture.away;
     if (Number.isInteger(goalsHome) && homeScore) homeScore.textContent = goalsHome;
     if (Number.isInteger(goalsAway) && awayScore) awayScore.textContent = goalsAway;
     updateSimulatorMessage();
