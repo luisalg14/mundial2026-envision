@@ -480,8 +480,10 @@
 
       number.textContent = card.value;
       label.textContent = card.label;
+      box.classList.toggle("is-elige-card", card.value === "ELIGE");
       box.classList.toggle("is-predice-card", card.value === "PREDICE");
       box.classList.toggle("is-juega-card", card.value === "JUEGA");
+      box.classList.toggle("is-mira-card", card.value === "MIRA");
       box.setAttribute("role", "button");
       box.setAttribute("tabindex", "0");
       box.setAttribute("aria-label", `Ir a ${card.label}`);
@@ -508,8 +510,10 @@
     document.querySelectorAll("#countdown .time-box").forEach((box, index) => {
       const label = box.querySelector(".time-label");
       if (label) label.textContent = labels[index] || "";
+      box.classList.remove("is-elige-card");
       box.classList.remove("is-predice-card");
       box.classList.remove("is-juega-card");
+      box.classList.remove("is-mira-card");
       box.removeAttribute("role");
       box.removeAttribute("tabindex");
       box.removeAttribute("aria-label");
