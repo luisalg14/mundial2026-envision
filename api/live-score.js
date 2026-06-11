@@ -116,7 +116,7 @@ module.exports = async function handler(request, response) {
     return response.status(200).json({
       ok: false,
       mode: "demo",
-      message: "El marcador real se activará cuando configures APISPORTS_KEY o API_FOOTBALL_KEY."
+      message: "El marcador se actualizará cuando esté disponible."
     });
   }
 

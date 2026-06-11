@@ -639,7 +639,7 @@
         return;
       }
 
-      renderRecentResultsFallback("Conecta la API real para ver resultados finales oficiales.");
+      renderRecentResultsFallback("Los resultados recientes aparecerán cuando estén disponibles.");
       refreshCurrentSimulatorMatch();
       const params = new URLSearchParams({
         date: getMatchApiDate(currentSimMatch),
@@ -653,7 +653,7 @@
       const data = await response.json();
 
       if (!data.ok) {
-        status.textContent = data.mode === "demo" ? "Sin API real" : "Por confirmar";
+        status.textContent = data.mode === "demo" ? "Predicción activa" : "Por confirmar";
         status.title = data.message || "El marcador en vivo se actualizará cuando esté disponible.";
         return;
       }
@@ -661,7 +661,7 @@
       applyLiveScore(data);
       status.textContent = data.status === "FT" ? "Finalizado" : data.elapsed ? `${data.elapsed}'` : "En vivo";
     } catch (error) {
-      renderRecentResultsFallback("Los resultados oficiales no están disponibles en este momento.");
+      renderRecentResultsFallback("Los resultados recientes aparecerán cuando estén disponibles.");
       status.textContent = "Por confirmar";
       status.title = "El marcador en vivo se actualizará cuando esté disponible.";
     }
