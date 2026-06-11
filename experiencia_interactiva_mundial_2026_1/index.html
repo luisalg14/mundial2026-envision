@@ -1,0 +1,1021 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Copa del Mundo 2026 | Envision Estudio Web</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<div class="shader" aria-hidden="true"><canvas id="bgShader"></canvas></div>
+<div class="page">
+  <header class="topbar">
+    <div class="brand">
+      <span class="material-symbols-outlined">sports_soccer</span>
+      <span>Mundial 2026</span>
+    </div>
+    <nav class="topnav" aria-label="Navegación principal">
+      <a href="#hero">Inicio</a>
+      <a href="#teams">Equipos</a>
+      <a href="#quiz">Quiz</a>
+      <a href="#matches">Partidos</a>
+    </nav>
+    <div class="clock" id="clock">00:00:00</div>
+  </header>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">Experiencia interactiva mundialista</div>
+        <h1>Vive la pasión del <span class="accent">Mundial 2026</span></h1>
+        <p>Elige tu selección, predice al campeón, simula marcadores y pon a prueba cuánto sabes de fútbol.</p>
+        <div class="hero-signature">
+          <img src="assets/img/envision-icon.png" alt="">
+          <span>Creado por Envision Estudio Web</span>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" id="startExperience">
+            Empezar experiencia
+          </button>
+          <button class="btn btn-ghost" id="viewMatches">
+            Ver partidos
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <div class="broadcast-ticker" aria-label="Marcador mundialista">
+      <div class="ticker-track">
+        <span>Clasificatorias: ARG 2 - 0 BRA</span>
+        <span>USA 1 - 1 MEX</span>
+        <span>CAN 3 - 0 PAN</span>
+        <span>FRA 4 - 2 GER</span>
+        <span>COL 2 - 1 URU</span>
+        <span>Clasificatorias: ARG 2 - 0 BRA</span>
+        <span>USA 1 - 1 MEX</span>
+        <span>CAN 3 - 0 PAN</span>
+      </div>
+    </div>
+
+    <div class="stack">
+      <section class="card countdown" id="countdown">
+        <h2 class="card-title">Cuenta regresiva</h2>
+        <p class="card-sub">Faltan para el inicio del Mundial 2026</p>
+        <div class="time-grid">
+          <div class="time-box"><span class="time-num" id="days">000</span><span class="time-label">Días</span></div>
+          <div class="time-box"><span class="time-num" id="hours">00</span><span class="time-label">Hrs</span></div>
+          <div class="time-box"><span class="time-num" id="mins">00</span><span class="time-label">Min</span></div>
+          <div class="time-box"><span class="time-num" id="secs">00</span><span class="time-label">Seg</span></div>
+        </div>
+        <p class="countdown-live-message" id="countdownLiveMessage">La emoción está por comenzar.</p>
+      </section>
+
+      <section class="card section-card team-card" id="teams">
+        <div class="section-head">
+          <h2 class="card-title">Tu Equipo</h2>
+          <span class="material-symbols-outlined">flag</span>
+        </div>
+        <div class="teams teams-collapsed" id="teamsGrid">
+          <button class="team" data-team="Alemania"><img class="flag" alt="Alemania" src="https://flagcdn.com/w80/de.png"><span class="team-name">Alemania</span></button>
+          <button class="team" data-team="Arabia Saudita"><img class="flag" alt="Arabia Saudita" src="https://flagcdn.com/w80/sa.png"><span class="team-name">Arabia Saudita</span></button>
+          <button class="team" data-team="Argelia"><img class="flag" alt="Argelia" src="https://flagcdn.com/w80/dz.png"><span class="team-name">Argelia</span></button>
+          <button class="team" data-team="Argentina"><img class="flag" alt="Argentina" src="https://flagcdn.com/w80/ar.png"><span class="team-name">Argentina</span></button>
+          <button class="team" data-team="Australia"><img class="flag" alt="Australia" src="https://flagcdn.com/w80/au.png"><span class="team-name">Australia</span></button>
+          <button class="team" data-team="Austria"><img class="flag" alt="Austria" src="https://flagcdn.com/w80/at.png"><span class="team-name">Austria</span></button>
+          <button class="team" data-team="Bélgica"><img class="flag" alt="Bélgica" src="https://flagcdn.com/w80/be.png"><span class="team-name">Bélgica</span></button>
+          <button class="team" data-team="Bosnia y Herzegovina"><img class="flag" alt="Bosnia y Herzegovina" src="https://flagcdn.com/w80/ba.png"><span class="team-name">Bosnia y Herz.</span></button>
+          <button class="team" data-team="Brasil"><img class="flag" alt="Brasil" src="https://flagcdn.com/w80/br.png"><span class="team-name">Brasil</span></button>
+          <button class="team" data-team="Cabo Verde"><img class="flag" alt="Cabo Verde" src="https://flagcdn.com/w80/cv.png"><span class="team-name">Cabo Verde</span></button>
+          <button class="team" data-team="Canadá"><img class="flag" alt="Canadá" src="https://flagcdn.com/w80/ca.png"><span class="team-name">Canadá</span></button>
+          <button class="team active" data-team="Colombia"><img class="flag" alt="Colombia" src="https://flagcdn.com/w80/co.png"><span class="team-name">Colombia</span></button>
+          <button class="team" data-team="Corea del Sur"><img class="flag" alt="Corea del Sur" src="https://flagcdn.com/w80/kr.png"><span class="team-name">Corea del Sur</span></button>
+          <button class="team" data-team="Costa de Marfil"><img class="flag" alt="Costa de Marfil" src="https://flagcdn.com/w80/ci.png"><span class="team-name">Costa de Marfil</span></button>
+          <button class="team" data-team="Croacia"><img class="flag" alt="Croacia" src="https://flagcdn.com/w80/hr.png"><span class="team-name">Croacia</span></button>
+          <button class="team" data-team="Curazao"><img class="flag" alt="Curazao" src="https://flagcdn.com/w80/cw.png"><span class="team-name">Curazao</span></button>
+          <button class="team" data-team="Ecuador"><img class="flag" alt="Ecuador" src="https://flagcdn.com/w80/ec.png"><span class="team-name">Ecuador</span></button>
+          <button class="team" data-team="Egipto"><img class="flag" alt="Egipto" src="https://flagcdn.com/w80/eg.png"><span class="team-name">Egipto</span></button>
+          <button class="team" data-team="Escocia"><img class="flag" alt="Escocia" src="https://flagcdn.com/w80/gb-sct.png"><span class="team-name">Escocia</span></button>
+          <button class="team" data-team="España"><img class="flag" alt="España" src="https://flagcdn.com/w80/es.png"><span class="team-name">España</span></button>
+          <button class="team" data-team="Estados Unidos"><img class="flag" alt="Estados Unidos" src="https://flagcdn.com/w80/us.png"><span class="team-name">Estados Unidos</span></button>
+          <button class="team" data-team="Francia"><img class="flag" alt="Francia" src="https://flagcdn.com/w80/fr.png"><span class="team-name">Francia</span></button>
+          <button class="team" data-team="Ghana"><img class="flag" alt="Ghana" src="https://flagcdn.com/w80/gh.png"><span class="team-name">Ghana</span></button>
+          <button class="team" data-team="Haití"><img class="flag" alt="Haití" src="https://flagcdn.com/w80/ht.png"><span class="team-name">Haití</span></button>
+          <button class="team" data-team="Inglaterra"><img class="flag" alt="Inglaterra" src="https://flagcdn.com/w80/gb-eng.png"><span class="team-name">Inglaterra</span></button>
+          <button class="team" data-team="Irak"><img class="flag" alt="Irak" src="https://flagcdn.com/w80/iq.png"><span class="team-name">Irak</span></button>
+          <button class="team" data-team="Irán"><img class="flag" alt="Irán" src="https://flagcdn.com/w80/ir.png"><span class="team-name">Irán</span></button>
+          <button class="team" data-team="Japón"><img class="flag" alt="Japón" src="https://flagcdn.com/w80/jp.png"><span class="team-name">Japón</span></button>
+          <button class="team" data-team="Jordania"><img class="flag" alt="Jordania" src="https://flagcdn.com/w80/jo.png"><span class="team-name">Jordania</span></button>
+          <button class="team" data-team="Marruecos"><img class="flag" alt="Marruecos" src="https://flagcdn.com/w80/ma.png"><span class="team-name">Marruecos</span></button>
+          <button class="team" data-team="México"><img class="flag" alt="México" src="https://flagcdn.com/w80/mx.png"><span class="team-name">México</span></button>
+          <button class="team" data-team="Noruega"><img class="flag" alt="Noruega" src="https://flagcdn.com/w80/no.png"><span class="team-name">Noruega</span></button>
+          <button class="team" data-team="Nueva Zelanda"><img class="flag" alt="Nueva Zelanda" src="https://flagcdn.com/w80/nz.png"><span class="team-name">Nueva Zelanda</span></button>
+          <button class="team" data-team="Países Bajos"><img class="flag" alt="Países Bajos" src="https://flagcdn.com/w80/nl.png"><span class="team-name">Países Bajos</span></button>
+          <button class="team" data-team="Panamá"><img class="flag" alt="Panamá" src="https://flagcdn.com/w80/pa.png"><span class="team-name">Panamá</span></button>
+          <button class="team" data-team="Paraguay"><img class="flag" alt="Paraguay" src="https://flagcdn.com/w80/py.png"><span class="team-name">Paraguay</span></button>
+          <button class="team" data-team="Portugal"><img class="flag" alt="Portugal" src="https://flagcdn.com/w80/pt.png"><span class="team-name">Portugal</span></button>
+          <button class="team" data-team="Qatar"><img class="flag" alt="Qatar" src="https://flagcdn.com/w80/qa.png"><span class="team-name">Qatar</span></button>
+          <button class="team" data-team="RD Congo"><img class="flag" alt="RD Congo" src="https://flagcdn.com/w80/cd.png"><span class="team-name">RD Congo</span></button>
+          <button class="team" data-team="República Checa"><img class="flag" alt="República Checa" src="https://flagcdn.com/w80/cz.png"><span class="team-name">Rep. Checa</span></button>
+          <button class="team" data-team="Senegal"><img class="flag" alt="Senegal" src="https://flagcdn.com/w80/sn.png"><span class="team-name">Senegal</span></button>
+          <button class="team" data-team="Sudáfrica"><img class="flag" alt="Sudáfrica" src="https://flagcdn.com/w80/za.png"><span class="team-name">Sudáfrica</span></button>
+          <button class="team" data-team="Suecia"><img class="flag" alt="Suecia" src="https://flagcdn.com/w80/se.png"><span class="team-name">Suecia</span></button>
+          <button class="team" data-team="Suiza"><img class="flag" alt="Suiza" src="https://flagcdn.com/w80/ch.png"><span class="team-name">Suiza</span></button>
+          <button class="team" data-team="Túnez"><img class="flag" alt="Túnez" src="https://flagcdn.com/w80/tn.png"><span class="team-name">Túnez</span></button>
+          <button class="team" data-team="Turquía"><img class="flag" alt="Turquía" src="https://flagcdn.com/w80/tr.png"><span class="team-name">Turquía</span></button>
+          <button class="team" data-team="Uruguay"><img class="flag" alt="Uruguay" src="https://flagcdn.com/w80/uy.png"><span class="team-name">Uruguay</span></button>
+          <button class="team" data-team="Uzbekistán"><img class="flag" alt="Uzbekistán" src="https://flagcdn.com/w80/uz.png"><span class="team-name">Uzbekistán</span></button>
+        </div>
+        <button class="wide-button team-toggle" id="toggleTeams" type="button">Ver todas las selecciones</button>
+        <p class="interaction-message" id="favoriteTeamMessage">Tu selección favorita es Colombia.</p>
+        <div class="favorite-fixtures" id="favoriteFixtures" aria-live="polite"></div>
+      </section>
+
+      <section class="card section-card winner-card" id="predictor">
+        <div class="winner-trophy" aria-label="Trofeo de la Copa Mundial">
+          <img class="cover-trophy" alt="Trofeo Copa Mundial" src="assets/img/copa-stitch.png">
+        </div>
+        <h2 class="card-title">El Ganador</h2>
+        <p class="card-sub">¿Quién levantará la copa?</p>
+        <div class="select-wrap">
+          <select id="championSelect" aria-label="Seleccionar campeón">
+            <option value="">Selecciona un campeón...</option>
+            <optgroup label="AFC">
+              <option>Australia</option>
+              <option>Irán</option>
+              <option>Irak</option>
+              <option>Japón</option>
+              <option>Jordania</option>
+              <option>Qatar</option>
+              <option>Arabia Saudita</option>
+              <option>Corea del Sur</option>
+              <option>Uzbekistán</option>
+            </optgroup>
+            <optgroup label="CAF">
+              <option>Argelia</option>
+              <option>Cabo Verde</option>
+              <option>RD Congo</option>
+              <option>Egipto</option>
+              <option>Ghana</option>
+              <option>Costa de Marfil</option>
+              <option>Marruecos</option>
+              <option>Senegal</option>
+              <option>Sudáfrica</option>
+              <option>Túnez</option>
+            </optgroup>
+            <optgroup label="CONCACAF">
+              <option>Canadá</option>
+              <option>Curazao</option>
+              <option>Haití</option>
+              <option>México</option>
+              <option>Panamá</option>
+              <option>Estados Unidos</option>
+            </optgroup>
+            <optgroup label="CONMEBOL">
+              <option>Argentina</option>
+              <option>Brasil</option>
+              <option>Colombia</option>
+              <option>Ecuador</option>
+              <option>Paraguay</option>
+              <option>Uruguay</option>
+            </optgroup>
+            <optgroup label="OFC">
+              <option>Nueva Zelanda</option>
+            </optgroup>
+            <optgroup label="UEFA">
+              <option>Austria</option>
+              <option>Bélgica</option>
+              <option>Bosnia y Herzegovina</option>
+              <option>Croacia</option>
+              <option>República Checa</option>
+              <option>Inglaterra</option>
+              <option>Francia</option>
+              <option>Alemania</option>
+              <option>Países Bajos</option>
+              <option>Noruega</option>
+              <option>Portugal</option>
+              <option>Escocia</option>
+              <option>España</option>
+              <option>Suecia</option>
+              <option>Suiza</option>
+              <option>Turquía</option>
+            </optgroup>
+          </select>
+          <span class="material-symbols-outlined">expand_more</span>
+        </div>
+        <button class="wide-button" id="savePrediction">Guardar predicción</button>
+        <p class="interaction-message" id="predictionMessage"></p>
+      </section>
+
+      <section class="card section-card sim-card" id="simulator">
+        <div class="sim-head">
+          <div>
+            <h2 class="card-title">Marcador</h2>
+            <p class="card-sub" id="simMatchMeta">Próximo partido oficial</p>
+          </div>
+          <span class="live-pill" id="liveStatus">Predicción activa</span>
+        </div>
+        <div class="simulator">
+          <div class="club">
+            <img class="crest" id="simHomeFlag" alt="Bandera de México" src="https://flagcdn.com/w160/mx.png">
+            <div class="club-name" id="simHomeName">MEX</div>
+            <div class="score">
+              <button onclick="updateScore('home', -1)" aria-label="Restar gol local">-</button>
+              <span id="score-home">0</span>
+              <button onclick="updateScore('home', 1)" aria-label="Sumar gol local">+</button>
+            </div>
+          </div>
+          <div class="vs">VS</div>
+          <div class="club">
+            <img class="crest" id="simAwayFlag" alt="Bandera de Sudáfrica" src="https://flagcdn.com/w160/za.png">
+            <div class="club-name" id="simAwayName">RSA</div>
+            <div class="score">
+              <button onclick="updateScore('away', -1)" aria-label="Restar gol visitante">-</button>
+              <span id="score-away">0</span>
+              <button onclick="updateScore('away', 1)" aria-label="Sumar gol visitante">+</button>
+            </div>
+          </div>
+        </div>
+        <div class="sim-live-meta" id="simVenue">Estadio Azteca, Mexico City</div>
+        <button class="wide-button" id="saveScorePrediction" type="button">Guardar marcador</button>
+        <p class="interaction-message" id="predictionScoreMessage"></p>
+        <p class="interaction-message" id="simulatorMessage">Predicción: empate intenso hasta el final.</p>
+      </section>
+
+      <section class="card section-card quiz-card" id="quiz">
+        <span class="quiz-label">Quiz Rápido</span>
+        <div class="quiz-title-row">
+          <h2 class="card-title" id="quizQuestion">¿Dónde será la final del Mundial 2026?</h2>
+          <span class="material-symbols-outlined">quiz</span>
+        </div>
+        <div class="choices" id="quizChoices">
+          <button class="choice" type="button">MetLife Stadium, NJ</button>
+          <button class="choice" type="button">Estadio Azteca, CDMX</button>
+          <button class="choice" type="button">SoFi Stadium, LA</button>
+        </div>
+        <p class="interaction-message" id="quizMessage"></p>
+        <div class="quiz-actions">
+          <span class="quiz-progress" id="quizProgress">Pregunta 1 / 8</span>
+          <button class="wide-button quiz-next" id="nextQuiz" type="button">Siguiente pregunta</button>
+        </div>
+      </section>
+
+      <section class="card section-card matches-card" id="matches">
+        <div class="matches-head">
+          <h2 class="card-title">Partidos destacados</h2>
+          <div class="arrows">
+            <button aria-label="Página anterior de partidos" id="prevMatches" type="button"><span class="material-symbols-outlined">chevron_left</span></button>
+            <span class="match-page" id="matchPage">1 / 12</span>
+            <button aria-label="Siguiente página de partidos" id="nextMatches" type="button"><span class="material-symbols-outlined">chevron_right</span></button>
+          </div>
+        </div>
+        <div class="match-filters" aria-label="Filtros de partidos">
+          <label>
+            <span>Grupo</span>
+            <select id="groupFilter">
+              <option value="">Todos</option>
+              <option value="Grupo A">Grupo A</option>
+              <option value="Grupo B">Grupo B</option>
+              <option value="Grupo C">Grupo C</option>
+              <option value="Grupo D">Grupo D</option>
+              <option value="Grupo E">Grupo E</option>
+              <option value="Grupo F">Grupo F</option>
+              <option value="Grupo G">Grupo G</option>
+              <option value="Grupo H">Grupo H</option>
+              <option value="Grupo I">Grupo I</option>
+              <option value="Grupo J">Grupo J</option>
+              <option value="Grupo K">Grupo K</option>
+              <option value="Grupo L">Grupo L</option>
+            </select>
+          </label>
+          <label>
+            <span>Selección</span>
+            <select id="teamFilter">
+              <option value="">Todas</option>
+            </select>
+          </label>
+        </div>
+        <p class="interaction-message match-filter-message" id="matchFilterMessage">Mostrando todos los partidos.</p>
+        <div class="match-list match-list-full">
+          <div class="match">
+            <div class="date"><span>11 jun 2026</span><small>1:00&#160;p.m. UTC−6</small><em>Grupo A</em></div>
+            <div class="pair">
+              <div class="side"><span>MEX</span><img class="mini-flag" alt="M&#233;xico" src="https://flagcdn.com/w40/mx.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Sud&#225;frica" src="https://flagcdn.com/w40/za.png"><span>RSA</span></div>
+            </div>
+            <div class="venue">Estadio Azteca, Mexico City</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>11 jun 2026</span><small>8:00&#160;p.m. UTC−6</small><em>Grupo A</em></div>
+            <div class="pair">
+              <div class="side"><span>KOR</span><img class="mini-flag" alt="Corea del Sur" src="https://flagcdn.com/w40/kr.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Rep. Checa" src="https://flagcdn.com/w40/cz.png"><span>CZE</span></div>
+            </div>
+            <div class="venue">Estadio Akron, Zapopan</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>12 jun 2026</span><small>3:00&#160;p.m. UTC−4</small><em>Grupo B</em></div>
+            <div class="pair">
+              <div class="side"><span>CAN</span><img class="mini-flag" alt="Canad&#225;" src="https://flagcdn.com/w40/ca.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Bosnia y Herz." src="https://flagcdn.com/w40/ba.png"><span>BIH</span></div>
+            </div>
+            <div class="venue">BMO Field, Toronto</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>12 jun 2026</span><small>6:00&#160;p.m.</small><em>Grupo D</em></div>
+            <div class="pair">
+              <div class="side"><span>USA</span><img class="mini-flag" alt="Estados Unidos" src="https://flagcdn.com/w40/us.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Paraguay" src="https://flagcdn.com/w40/py.png"><span>PAR</span></div>
+            </div>
+            <div class="venue">SoFi Stadium, Inglewood</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>13 jun 2026</span><small>12:00&#160;p.m. UTC−7</small><em>Grupo B</em></div>
+            <div class="pair">
+              <div class="side"><span>QAT</span><img class="mini-flag" alt="Qatar" src="https://flagcdn.com/w40/qa.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Suiza" src="https://flagcdn.com/w40/ch.png"><span>SUI</span></div>
+            </div>
+            <div class="venue">Levi&#39;s Stadium, Santa Clara</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>13 jun 2026</span><small>6:00&#160;p.m.</small><em>Grupo C</em></div>
+            <div class="pair">
+              <div class="side"><span>BRA</span><img class="mini-flag" alt="Brasil" src="https://flagcdn.com/w40/br.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Marruecos" src="https://flagcdn.com/w40/ma.png"><span>MAR</span></div>
+            </div>
+            <div class="venue">MetLife Stadium, East Rutherford</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>13 jun 2026</span><small>9:00&#160;p.m.</small><em>Grupo C</em></div>
+            <div class="pair">
+              <div class="side"><span>HAI</span><img class="mini-flag" alt="Hait&#237;" src="https://flagcdn.com/w40/ht.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Escocia" src="https://flagcdn.com/w40/gb-sct.png"><span>SCO</span></div>
+            </div>
+            <div class="venue">Gillette Stadium, Foxborough</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>13 jun 2026</span><small>9:00&#160;p.m.</small><em>Grupo D</em></div>
+            <div class="pair">
+              <div class="side"><span>AUS</span><img class="mini-flag" alt="Australia" src="https://flagcdn.com/w40/au.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Turqu&#237;a" src="https://flagcdn.com/w40/tr.png"><span>TUR</span></div>
+            </div>
+            <div class="venue">BC Place, Vancouver</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>14 jun 2026</span><small>12:00&#160;p.m. UTC−5</small><em>Grupo E</em></div>
+            <div class="pair">
+              <div class="side"><span>GER</span><img class="mini-flag" alt="Alemania" src="https://flagcdn.com/w40/de.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Curazao" src="https://flagcdn.com/w40/cw.png"><span>CUW</span></div>
+            </div>
+            <div class="venue">NRG Stadium, Houston</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>14 jun 2026</span><small>3:00&#160;p.m. UTC−5</small><em>Grupo F</em></div>
+            <div class="pair">
+              <div class="side"><span>NED</span><img class="mini-flag" alt="Pa&#237;ses Bajos" src="https://flagcdn.com/w40/nl.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Jap&#243;n" src="https://flagcdn.com/w40/jp.png"><span>JPN</span></div>
+            </div>
+            <div class="venue">AT&amp;T Stadium, Arlington</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>14 jun 2026</span><small>7:00&#160;p.m. UTC−4</small><em>Grupo E</em></div>
+            <div class="pair">
+              <div class="side"><span>CIV</span><img class="mini-flag" alt="Costa de Marfil" src="https://flagcdn.com/w40/ci.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Ecuador" src="https://flagcdn.com/w40/ec.png"><span>ECU</span></div>
+            </div>
+            <div class="venue">Lincoln Financial Field, Philadelphia</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>14 jun 2026</span><small>8:00&#160;p.m. UTC−6</small><em>Grupo F</em></div>
+            <div class="pair">
+              <div class="side"><span>SWE</span><img class="mini-flag" alt="Suecia" src="https://flagcdn.com/w40/se.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="T&#250;nez" src="https://flagcdn.com/w40/tn.png"><span>TUN</span></div>
+            </div>
+            <div class="venue">Estadio BBVA, Guadalupe</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>15 jun 2026</span><small>12:00&#160;p.m.</small><em>Grupo G</em></div>
+            <div class="pair">
+              <div class="side"><span>BEL</span><img class="mini-flag" alt="B&#233;lgica" src="https://flagcdn.com/w40/be.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Egipto" src="https://flagcdn.com/w40/eg.png"><span>EGY</span></div>
+            </div>
+            <div class="venue">Lumen Field, Seattle</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>15 jun 2026</span><small>12:00&#160;p.m. UTC−4</small><em>Grupo H</em></div>
+            <div class="pair">
+              <div class="side"><span>ESP</span><img class="mini-flag" alt="Espa&#241;a" src="https://flagcdn.com/w40/es.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Cabo Verde" src="https://flagcdn.com/w40/cv.png"><span>CPV</span></div>
+            </div>
+            <div class="venue">Mercedes-Benz Stadium, Atlanta</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>15 jun 2026</span><small>6:00&#160;p.m.</small><em>Grupo G</em></div>
+            <div class="pair">
+              <div class="side"><span>IRN</span><img class="mini-flag" alt="Ir&#225;n" src="https://flagcdn.com/w40/ir.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Nueva Zelanda" src="https://flagcdn.com/w40/nz.png"><span>NZL</span></div>
+            </div>
+            <div class="venue">SoFi Stadium, Inglewood</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>15 jun 2026</span><small>6:00&#160;p.m. UTC−4</small><em>Grupo H</em></div>
+            <div class="pair">
+              <div class="side"><span>KSA</span><img class="mini-flag" alt="Arabia Saudita" src="https://flagcdn.com/w40/sa.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Uruguay" src="https://flagcdn.com/w40/uy.png"><span>URU</span></div>
+            </div>
+            <div class="venue">Hard Rock Stadium, Miami Gardens</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>16 jun 2026</span><small>3:00&#160;p.m.</small><em>Grupo I</em></div>
+            <div class="pair">
+              <div class="side"><span>FRA</span><img class="mini-flag" alt="Francia" src="https://flagcdn.com/w40/fr.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Senegal" src="https://flagcdn.com/w40/sn.png"><span>SEN</span></div>
+            </div>
+            <div class="venue">MetLife Stadium, East Rutherford</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>16 jun 2026</span><small>6:00&#160;p.m.</small><em>Grupo I</em></div>
+            <div class="pair">
+              <div class="side"><span>IRQ</span><img class="mini-flag" alt="Irak" src="https://flagcdn.com/w40/iq.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Noruega" src="https://flagcdn.com/w40/no.png"><span>NOR</span></div>
+            </div>
+            <div class="venue">Gillette Stadium, Foxborough</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>16 jun 2026</span><small>8:00&#160;p.m. UTC−5</small><em>Grupo J</em></div>
+            <div class="pair">
+              <div class="side"><span>ARG</span><img class="mini-flag" alt="Argentina" src="https://flagcdn.com/w40/ar.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Argelia" src="https://flagcdn.com/w40/dz.png"><span>ALG</span></div>
+            </div>
+            <div class="venue">Arrowhead Stadium, Kansas City</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>16 jun 2026</span><small>9:00&#160;p.m. UTC−7</small><em>Grupo J</em></div>
+            <div class="pair">
+              <div class="side"><span>AUT</span><img class="mini-flag" alt="Austria" src="https://flagcdn.com/w40/at.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Jordania" src="https://flagcdn.com/w40/jo.png"><span>JOR</span></div>
+            </div>
+            <div class="venue">Levi&#39;s Stadium, Santa Clara</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>17 jun 2026</span><small>12:00&#160;p.m. UTC−5</small><em>Grupo K</em></div>
+            <div class="pair">
+              <div class="side"><span>POR</span><img class="mini-flag" alt="Portugal" src="https://flagcdn.com/w40/pt.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="RD Congo" src="https://flagcdn.com/w40/cd.png"><span>COD</span></div>
+            </div>
+            <div class="venue">NRG Stadium, Houston</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>17 jun 2026</span><small>3:00&#160;p.m. UTC−5</small><em>Grupo L</em></div>
+            <div class="pair">
+              <div class="side"><span>ENG</span><img class="mini-flag" alt="Inglaterra" src="https://flagcdn.com/w40/gb-eng.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Croacia" src="https://flagcdn.com/w40/hr.png"><span>CRO</span></div>
+            </div>
+            <div class="venue">AT&amp;T Stadium, Arlington</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>17 jun 2026</span><small>7:00&#160;p.m. UTC−4</small><em>Grupo L</em></div>
+            <div class="pair">
+              <div class="side"><span>GHA</span><img class="mini-flag" alt="Ghana" src="https://flagcdn.com/w40/gh.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Panam&#225;" src="https://flagcdn.com/w40/pa.png"><span>PAN</span></div>
+            </div>
+            <div class="venue">Toronto Stadium, Toronto</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>17 jun 2026</span><small>8:00&#160;p.m. UTC−6</small><em>Grupo K</em></div>
+            <div class="pair">
+              <div class="side"><span>UZB</span><img class="mini-flag" alt="Uzbekist&#225;n" src="https://flagcdn.com/w40/uz.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Colombia" src="https://flagcdn.com/w40/co.png"><span>COL</span></div>
+            </div>
+            <div class="venue">Estadio Azteca, Mexico City</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>18 jun 2026</span><small>12:00&#160;p.m. UTC−4</small><em>Grupo A</em></div>
+            <div class="pair">
+              <div class="side"><span>CZE</span><img class="mini-flag" alt="Rep. Checa" src="https://flagcdn.com/w40/cz.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Sud&#225;frica" src="https://flagcdn.com/w40/za.png"><span>RSA</span></div>
+            </div>
+            <div class="venue">Mercedes-Benz Stadium, Atlanta</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>18 jun 2026</span><small>12:00&#160;p.m. UTC−7</small><em>Grupo B</em></div>
+            <div class="pair">
+              <div class="side"><span>SUI</span><img class="mini-flag" alt="Suiza" src="https://flagcdn.com/w40/ch.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Bosnia y Herz." src="https://flagcdn.com/w40/ba.png"><span>BIH</span></div>
+            </div>
+            <div class="venue">SoFi Stadium, Inglewood</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>18 jun 2026</span><small>3:00&#160;p.m. UTC−7</small><em>Grupo B</em></div>
+            <div class="pair">
+              <div class="side"><span>CAN</span><img class="mini-flag" alt="Canad&#225;" src="https://flagcdn.com/w40/ca.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Qatar" src="https://flagcdn.com/w40/qa.png"><span>QAT</span></div>
+            </div>
+            <div class="venue">BC Place, Vancouver</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>18 jun 2026</span><small>7:00&#160;p.m. UTC−6</small><em>Grupo A</em></div>
+            <div class="pair">
+              <div class="side"><span>MEX</span><img class="mini-flag" alt="M&#233;xico" src="https://flagcdn.com/w40/mx.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Corea del Sur" src="https://flagcdn.com/w40/kr.png"><span>KOR</span></div>
+            </div>
+            <div class="venue">Estadio Akron, Zapopan</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>19 jun 2026</span><small>12:00&#160;p.m.</small><em>Grupo D</em></div>
+            <div class="pair">
+              <div class="side"><span>USA</span><img class="mini-flag" alt="Estados Unidos" src="https://flagcdn.com/w40/us.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Australia" src="https://flagcdn.com/w40/au.png"><span>AUS</span></div>
+            </div>
+            <div class="venue">Lumen Field, Seattle</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>19 jun 2026</span><small>6:00&#160;p.m.</small><em>Grupo C</em></div>
+            <div class="pair">
+              <div class="side"><span>SCO</span><img class="mini-flag" alt="Escocia" src="https://flagcdn.com/w40/gb-sct.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Marruecos" src="https://flagcdn.com/w40/ma.png"><span>MAR</span></div>
+            </div>
+            <div class="venue">Gillette Stadium, Foxborough</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>19 jun 2026</span><small>8:00&#160;p.m.</small><em>Grupo D</em></div>
+            <div class="pair">
+              <div class="side"><span>TUR</span><img class="mini-flag" alt="Turqu&#237;a" src="https://flagcdn.com/w40/tr.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Paraguay" src="https://flagcdn.com/w40/py.png"><span>PAR</span></div>
+            </div>
+            <div class="venue">Levi&#39;s Stadium, Santa Clara</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>19 jun 2026</span><small>8:30&#160;p.m.</small><em>Grupo C</em></div>
+            <div class="pair">
+              <div class="side"><span>BRA</span><img class="mini-flag" alt="Brasil" src="https://flagcdn.com/w40/br.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Hait&#237;" src="https://flagcdn.com/w40/ht.png"><span>HAI</span></div>
+            </div>
+            <div class="venue">Lincoln Financial Field, Philadelphia</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>20 jun 2026</span><small>10:00&#160;p.m. UTC−6</small><em>Grupo F</em></div>
+            <div class="pair">
+              <div class="side"><span>TUN</span><img class="mini-flag" alt="T&#250;nez" src="https://flagcdn.com/w40/tn.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Jap&#243;n" src="https://flagcdn.com/w40/jp.png"><span>JPN</span></div>
+            </div>
+            <div class="venue">Estadio BBVA, Guadalupe</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>20 jun 2026</span><small>12:00&#160;p.m. UTC−5</small><em>Grupo F</em></div>
+            <div class="pair">
+              <div class="side"><span>NED</span><img class="mini-flag" alt="Pa&#237;ses Bajos" src="https://flagcdn.com/w40/nl.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Suecia" src="https://flagcdn.com/w40/se.png"><span>SWE</span></div>
+            </div>
+            <div class="venue">NRG Stadium, Houston</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>20 jun 2026</span><small>4:00&#160;p.m. UTC−4</small><em>Grupo E</em></div>
+            <div class="pair">
+              <div class="side"><span>GER</span><img class="mini-flag" alt="Alemania" src="https://flagcdn.com/w40/de.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Costa de Marfil" src="https://flagcdn.com/w40/ci.png"><span>CIV</span></div>
+            </div>
+            <div class="venue">BMO Field, Toronto</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>20 jun 2026</span><small>7:00&#160;p.m. UTC−5</small><em>Grupo E</em></div>
+            <div class="pair">
+              <div class="side"><span>ECU</span><img class="mini-flag" alt="Ecuador" src="https://flagcdn.com/w40/ec.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Curazao" src="https://flagcdn.com/w40/cw.png"><span>CUW</span></div>
+            </div>
+            <div class="venue">Arrowhead Stadium, Kansas City</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>21 jun 2026</span><small>12:00&#160;p.m.</small><em>Grupo G</em></div>
+            <div class="pair">
+              <div class="side"><span>BEL</span><img class="mini-flag" alt="B&#233;lgica" src="https://flagcdn.com/w40/be.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Ir&#225;n" src="https://flagcdn.com/w40/ir.png"><span>IRN</span></div>
+            </div>
+            <div class="venue">SoFi Stadium, Inglewood</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>21 jun 2026</span><small>12:00&#160;p.m. UTC−4</small><em>Grupo H</em></div>
+            <div class="pair">
+              <div class="side"><span>ESP</span><img class="mini-flag" alt="Espa&#241;a" src="https://flagcdn.com/w40/es.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Arabia Saudita" src="https://flagcdn.com/w40/sa.png"><span>KSA</span></div>
+            </div>
+            <div class="venue">Mercedes-Benz Stadium, Atlanta</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>21 jun 2026</span><small>6:00&#160;p.m.</small><em>Grupo G</em></div>
+            <div class="pair">
+              <div class="side"><span>NZL</span><img class="mini-flag" alt="Nueva Zelanda" src="https://flagcdn.com/w40/nz.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Egipto" src="https://flagcdn.com/w40/eg.png"><span>EGY</span></div>
+            </div>
+            <div class="venue">BC Place, Vancouver</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>21 jun 2026</span><small>6:00&#160;p.m. UTC−4</small><em>Grupo H</em></div>
+            <div class="pair">
+              <div class="side"><span>URU</span><img class="mini-flag" alt="Uruguay" src="https://flagcdn.com/w40/uy.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Cabo Verde" src="https://flagcdn.com/w40/cv.png"><span>CPV</span></div>
+            </div>
+            <div class="venue">Hard Rock Stadium, Miami Gardens</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>22 jun 2026</span><small>12:00&#160;p.m. UTC−5</small><em>Grupo J</em></div>
+            <div class="pair">
+              <div class="side"><span>ARG</span><img class="mini-flag" alt="Argentina" src="https://flagcdn.com/w40/ar.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Austria" src="https://flagcdn.com/w40/at.png"><span>AUT</span></div>
+            </div>
+            <div class="venue">AT&amp;T Stadium, Arlington</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>22 jun 2026</span><small>5:00&#160;p.m.</small><em>Grupo I</em></div>
+            <div class="pair">
+              <div class="side"><span>FRA</span><img class="mini-flag" alt="Francia" src="https://flagcdn.com/w40/fr.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Irak" src="https://flagcdn.com/w40/iq.png"><span>IRQ</span></div>
+            </div>
+            <div class="venue">Lincoln Financial Field, Philadelphia</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>22 jun 2026</span><small>8:00&#160;p.m.</small><em>Grupo I</em></div>
+            <div class="pair">
+              <div class="side"><span>NOR</span><img class="mini-flag" alt="Noruega" src="https://flagcdn.com/w40/no.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Senegal" src="https://flagcdn.com/w40/sn.png"><span>SEN</span></div>
+            </div>
+            <div class="venue">MetLife Stadium, East Rutherford</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>22 jun 2026</span><small>8:00&#160;p.m. UTC−7</small><em>Grupo J</em></div>
+            <div class="pair">
+              <div class="side"><span>JOR</span><img class="mini-flag" alt="Jordania" src="https://flagcdn.com/w40/jo.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Argelia" src="https://flagcdn.com/w40/dz.png"><span>ALG</span></div>
+            </div>
+            <div class="venue">Levi&#39;s Stadium, Santa Clara</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>23 jun 2026</span><small>12:00&#160;p.m. UTC−5</small><em>Grupo K</em></div>
+            <div class="pair">
+              <div class="side"><span>POR</span><img class="mini-flag" alt="Portugal" src="https://flagcdn.com/w40/pt.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Uzbekist&#225;n" src="https://flagcdn.com/w40/uz.png"><span>UZB</span></div>
+            </div>
+            <div class="venue">NRG Stadium, Houston</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>23 jun 2026</span><small>4:00&#160;p.m. UTC−4</small><em>Grupo L</em></div>
+            <div class="pair">
+              <div class="side"><span>ENG</span><img class="mini-flag" alt="Inglaterra" src="https://flagcdn.com/w40/gb-eng.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Ghana" src="https://flagcdn.com/w40/gh.png"><span>GHA</span></div>
+            </div>
+            <div class="venue">Gillette Stadium, Foxborough</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>23 jun 2026</span><small>7:00&#160;p.m. UTC−4</small><em>Grupo L</em></div>
+            <div class="pair">
+              <div class="side"><span>PAN</span><img class="mini-flag" alt="Panam&#225;" src="https://flagcdn.com/w40/pa.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Croacia" src="https://flagcdn.com/w40/hr.png"><span>CRO</span></div>
+            </div>
+            <div class="venue">Toronto Stadium, Toronto</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>23 jun 2026</span><small>8:00&#160;p.m. UTC−6</small><em>Grupo K</em></div>
+            <div class="pair">
+              <div class="side"><span>COL</span><img class="mini-flag" alt="Colombia" src="https://flagcdn.com/w40/co.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="RD Congo" src="https://flagcdn.com/w40/cd.png"><span>COD</span></div>
+            </div>
+            <div class="venue">Estadio Akron, Zapopan</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>24 jun 2026</span><small>12:00&#160;p.m. UTC−7</small><em>Grupo B</em></div>
+            <div class="pair">
+              <div class="side"><span>SUI</span><img class="mini-flag" alt="Suiza" src="https://flagcdn.com/w40/ch.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Canad&#225;" src="https://flagcdn.com/w40/ca.png"><span>CAN</span></div>
+            </div>
+            <div class="venue">BC Place, Vancouver</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>24 jun 2026</span><small>12:00&#160;p.m. UTC−7</small><em>Grupo B</em></div>
+            <div class="pair">
+              <div class="side"><span>BIH</span><img class="mini-flag" alt="Bosnia y Herz." src="https://flagcdn.com/w40/ba.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Qatar" src="https://flagcdn.com/w40/qa.png"><span>QAT</span></div>
+            </div>
+            <div class="venue">Lumen Field, Seattle</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>24 jun 2026</span><small>6:00&#160;p.m.</small><em>Grupo C</em></div>
+            <div class="pair">
+              <div class="side"><span>MAR</span><img class="mini-flag" alt="Marruecos" src="https://flagcdn.com/w40/ma.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Hait&#237;" src="https://flagcdn.com/w40/ht.png"><span>HAI</span></div>
+            </div>
+            <div class="venue">Mercedes-Benz Stadium, Atlanta</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>24 jun 2026</span><small>6:00&#160;p.m.</small><em>Grupo C</em></div>
+            <div class="pair">
+              <div class="side"><span>SCO</span><img class="mini-flag" alt="Escocia" src="https://flagcdn.com/w40/gb-sct.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Brasil" src="https://flagcdn.com/w40/br.png"><span>BRA</span></div>
+            </div>
+            <div class="venue">Hard Rock Stadium, Miami Gardens</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>24 jun 2026</span><small>7:00&#160;p.m. UTC−6</small><em>Grupo A</em></div>
+            <div class="pair">
+              <div class="side"><span>RSA</span><img class="mini-flag" alt="Sud&#225;frica" src="https://flagcdn.com/w40/za.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Corea del Sur" src="https://flagcdn.com/w40/kr.png"><span>KOR</span></div>
+            </div>
+            <div class="venue">Estadio BBVA, Guadalupe</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>24 jun 2026</span><small>7:00&#160;p.m. UTC−6</small><em>Grupo A</em></div>
+            <div class="pair">
+              <div class="side"><span>CZE</span><img class="mini-flag" alt="Rep. Checa" src="https://flagcdn.com/w40/cz.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="M&#233;xico" src="https://flagcdn.com/w40/mx.png"><span>MEX</span></div>
+            </div>
+            <div class="venue">Estadio Azteca, Mexico City</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>25 jun 2026</span><small>4:00&#160;p.m. UTC−4</small><em>Grupo E</em></div>
+            <div class="pair">
+              <div class="side"><span>ECU</span><img class="mini-flag" alt="Ecuador" src="https://flagcdn.com/w40/ec.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Alemania" src="https://flagcdn.com/w40/de.png"><span>GER</span></div>
+            </div>
+            <div class="venue">MetLife Stadium, East Rutherford</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>25 jun 2026</span><small>4:00&#160;p.m. UTC−4</small><em>Grupo E</em></div>
+            <div class="pair">
+              <div class="side"><span>CUW</span><img class="mini-flag" alt="Curazao" src="https://flagcdn.com/w40/cw.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Costa de Marfil" src="https://flagcdn.com/w40/ci.png"><span>CIV</span></div>
+            </div>
+            <div class="venue">Lincoln Financial Field, Philadelphia</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>25 jun 2026</span><small>6:00&#160;p.m. UTC−5</small><em>Grupo F</em></div>
+            <div class="pair">
+              <div class="side"><span>JPN</span><img class="mini-flag" alt="Jap&#243;n" src="https://flagcdn.com/w40/jp.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Suecia" src="https://flagcdn.com/w40/se.png"><span>SWE</span></div>
+            </div>
+            <div class="venue">AT&amp;T Stadium, Arlington</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>25 jun 2026</span><small>6:00&#160;p.m. UTC−5</small><em>Grupo F</em></div>
+            <div class="pair">
+              <div class="side"><span>TUN</span><img class="mini-flag" alt="T&#250;nez" src="https://flagcdn.com/w40/tn.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Pa&#237;ses Bajos" src="https://flagcdn.com/w40/nl.png"><span>NED</span></div>
+            </div>
+            <div class="venue">Arrowhead Stadium, Kansas City</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>25 jun 2026</span><small>7:00&#160;p.m.</small><em>Grupo D</em></div>
+            <div class="pair">
+              <div class="side"><span>PAR</span><img class="mini-flag" alt="Paraguay" src="https://flagcdn.com/w40/py.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Australia" src="https://flagcdn.com/w40/au.png"><span>AUS</span></div>
+            </div>
+            <div class="venue">Levi&#39;s Stadium, Santa Clara</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>25 jun 2026</span><small>7:00&#160;p.m.</small><em>Grupo D</em></div>
+            <div class="pair">
+              <div class="side"><span>TUR</span><img class="mini-flag" alt="Turqu&#237;a" src="https://flagcdn.com/w40/tr.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Estados Unidos" src="https://flagcdn.com/w40/us.png"><span>USA</span></div>
+            </div>
+            <div class="venue">SoFi Stadium, Inglewood</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>26 jun 2026</span><small>3:00&#160;p.m.</small><em>Grupo I</em></div>
+            <div class="pair">
+              <div class="side"><span>NOR</span><img class="mini-flag" alt="Noruega" src="https://flagcdn.com/w40/no.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Francia" src="https://flagcdn.com/w40/fr.png"><span>FRA</span></div>
+            </div>
+            <div class="venue">Gillette Stadium, Foxborough</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>26 jun 2026</span><small>3:00&#160;p.m.</small><em>Grupo I</em></div>
+            <div class="pair">
+              <div class="side"><span>SEN</span><img class="mini-flag" alt="Senegal" src="https://flagcdn.com/w40/sn.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Irak" src="https://flagcdn.com/w40/iq.png"><span>IRQ</span></div>
+            </div>
+            <div class="venue">BMO Field, Toronto</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>26 jun 2026</span><small>6:00&#160;p.m. UTC−6</small><em>Grupo H</em></div>
+            <div class="pair">
+              <div class="side"><span>URU</span><img class="mini-flag" alt="Uruguay" src="https://flagcdn.com/w40/uy.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Espa&#241;a" src="https://flagcdn.com/w40/es.png"><span>ESP</span></div>
+            </div>
+            <div class="venue">Estadio Akron, Zapopan</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>26 jun 2026</span><small>7:00&#160;p.m. UTC−5</small><em>Grupo H</em></div>
+            <div class="pair">
+              <div class="side"><span>CPV</span><img class="mini-flag" alt="Cabo Verde" src="https://flagcdn.com/w40/cv.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Arabia Saudita" src="https://flagcdn.com/w40/sa.png"><span>KSA</span></div>
+            </div>
+            <div class="venue">NRG Stadium, Houston</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>26 jun 2026</span><small>8:00&#160;p.m.</small><em>Grupo G</em></div>
+            <div class="pair">
+              <div class="side"><span>EGY</span><img class="mini-flag" alt="Egipto" src="https://flagcdn.com/w40/eg.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Ir&#225;n" src="https://flagcdn.com/w40/ir.png"><span>IRN</span></div>
+            </div>
+            <div class="venue">Lumen Field, Seattle</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>26 jun 2026</span><small>8:00&#160;p.m.</small><em>Grupo G</em></div>
+            <div class="pair">
+              <div class="side"><span>NZL</span><img class="mini-flag" alt="Nueva Zelanda" src="https://flagcdn.com/w40/nz.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="B&#233;lgica" src="https://flagcdn.com/w40/be.png"><span>BEL</span></div>
+            </div>
+            <div class="venue">BC Place, Vancouver</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>27 jun 2026</span><small>5:00&#160;p.m. UTC−4</small><em>Grupo L</em></div>
+            <div class="pair">
+              <div class="side"><span>PAN</span><img class="mini-flag" alt="Panam&#225;" src="https://flagcdn.com/w40/pa.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Inglaterra" src="https://flagcdn.com/w40/gb-eng.png"><span>ENG</span></div>
+            </div>
+            <div class="venue">MetLife Stadium, East Rutherford</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>27 jun 2026</span><small>5:00&#160;p.m. UTC−4</small><em>Grupo L</em></div>
+            <div class="pair">
+              <div class="side"><span>CRO</span><img class="mini-flag" alt="Croacia" src="https://flagcdn.com/w40/hr.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Ghana" src="https://flagcdn.com/w40/gh.png"><span>GHA</span></div>
+            </div>
+            <div class="venue">Lincoln Financial Field, Philadelphia</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>27 jun 2026</span><small>7:30&#160;p.m. UTC−4</small><em>Grupo K</em></div>
+            <div class="pair">
+              <div class="side"><span>COD</span><img class="mini-flag" alt="RD Congo" src="https://flagcdn.com/w40/cd.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Uzbekist&#225;n" src="https://flagcdn.com/w40/uz.png"><span>UZB</span></div>
+            </div>
+            <div class="venue">Mercedes-Benz Stadium, Atlanta</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>27 jun 2026</span><small>7:30&#160;p.m. UTC−4</small><em>Grupo K</em></div>
+            <div class="pair">
+              <div class="side"><span>COL</span><img class="mini-flag" alt="Colombia" src="https://flagcdn.com/w40/co.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Portugal" src="https://flagcdn.com/w40/pt.png"><span>POR</span></div>
+            </div>
+            <div class="venue">Hard Rock Stadium, Miami Gardens</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>27 jun 2026</span><small>9:00&#160;p.m. UTC−5</small><em>Grupo J</em></div>
+            <div class="pair">
+              <div class="side"><span>JOR</span><img class="mini-flag" alt="Jordania" src="https://flagcdn.com/w40/jo.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Argentina" src="https://flagcdn.com/w40/ar.png"><span>ARG</span></div>
+            </div>
+            <div class="venue">AT&amp;T Stadium, Arlington</div>
+          </div>
+          <div class="match">
+            <div class="date"><span>27 jun 2026</span><small>9:00&#160;p.m. UTC−5</small><em>Grupo J</em></div>
+            <div class="pair">
+              <div class="side"><span>ALG</span><img class="mini-flag" alt="Argelia" src="https://flagcdn.com/w40/dz.png"></div>
+              <div class="versus-pill">VS</div>
+              <div class="side"><img class="mini-flag" alt="Austria" src="https://flagcdn.com/w40/at.png"><span>AUT</span></div>
+            </div>
+            <div class="venue">Arrowhead Stadium, Kansas City</div>
+          </div>        </div>
+      </section>
+
+      <section class="card section-card vibe-card" id="vibe">
+        <div class="section-head">
+          <div>
+            <h2 class="card-title">Vibra Mundialista</h2>
+            <p class="card-sub">Detalles visuales para sentir la energía del torneo.</p>
+          </div>
+          <span class="material-symbols-outlined">stadium</span>
+        </div>
+        <div class="vibe-grid">
+          <div class="vibe-item vibe-ball">
+            <div class="vibe-visual ball-visual" aria-hidden="true">
+              <span></span>
+            </div>
+            <strong>Balón</strong>
+            <p>Centro de la experiencia con movimiento 3D y brillo turquesa.</p>
+          </div>
+          <div class="vibe-item vibe-flags">
+            <div class="vibe-visual flag-wall" aria-hidden="true">
+              <img alt="" src="https://flagcdn.com/w80/co.png">
+              <img alt="" src="https://flagcdn.com/w80/ar.png">
+              <img alt="" src="https://flagcdn.com/w80/br.png">
+              <img alt="" src="https://flagcdn.com/w80/mx.png">
+              <img alt="" src="https://flagcdn.com/w80/fr.png">
+              <img alt="" src="https://flagcdn.com/w80/jp.png">
+            </div>
+            <strong>Banderas</strong>
+            <p>Selecciones clasificadas para elegir y explorar.</p>
+          </div>
+          <div class="vibe-item vibe-jerseys">
+            <div class="vibe-visual kit-gallery">
+              <img class="kit-photo" alt="Camiseta Colombia 2026" src="assets/img/camiseta-colombia-2026.jpg">
+              <img class="kit-photo" alt="Camiseta Argentina 2026" src="assets/img/camiseta-argentina-2026.png">
+              <img class="kit-photo" alt="Camiseta Brasil 2026" src="assets/img/camiseta-brasil-2026.png">
+            </div>
+            <strong>Camisetas</strong>
+            <p>Camisetas reales 2026 de Colombia, Argentina y Brasil.</p>
+          </div>
+          <div class="vibe-item vibe-trophy">
+            <div class="vibe-visual trophy-stage">
+          <img class="trophy-photo" alt="Trofeo de la Copa Mundial FIFA" src="assets/img/copa-mundial.png">
+            </div>
+            <strong>Copa Mundial</strong>
+            <p>Imagen del trofeo mundialista con su silueta dorada real.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<footer>
+  <div class="footer-brand">
+    <img src="assets/img/envision-logo.png" alt="Envision Estudio Web">
+    <span>Experiencia interactiva creada por Envision Estudio Web.</span>
+  </div>
+  <div class="copyright">Proyecto web mundialista 2026.</div>
+  <nav class="links" aria-label="Enlaces legales">
+    <a href="https://www.instagram.com/envision.web" target="_blank" rel="noopener noreferrer">Instagram</a>
+    <a href="https://wa.me/573003748784" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+    <span>Portafolio pronto</span>
+  </nav>
+  <div class="quality"><span class="material-symbols-outlined">rocket_launch</span> Calidad mundialista</div>
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
+<script src="./script.js"></script>
+</body>
+</html>
