@@ -451,10 +451,28 @@
   .countdown.is-live .time-box {
     border-color: rgba(0, 242, 209, 0.22);
     background: rgba(0, 242, 209, 0.08);
+    cursor: pointer;
+    transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
   }
 
   .countdown.is-live .time-num {
     color: #eafffb;
+    font-size: clamp(11px, 3vw, 20px);
+    line-height: 1.08;
+    overflow-wrap: anywhere;
+  }
+
+  .countdown.is-live .time-label {
+    color: var(--cyan-soft);
+  }
+
+  .countdown.is-live .time-box:hover,
+  .countdown.is-live .time-box:focus-visible {
+    transform: translateY(-2px);
+    border-color: rgba(109, 255, 240, 0.7);
+    background: rgba(0, 242, 209, 0.14);
+    box-shadow: 0 0 20px rgba(0, 242, 209, 0.14);
+    outline: none;
   }
 
   .section-card {

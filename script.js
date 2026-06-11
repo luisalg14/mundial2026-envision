@@ -182,16 +182,68 @@
 
     if (rawDistance <= 0) {
       countdown?.classList.add("is-live");
+      activateLiveCountdown();
       if (title) title.textContent = "El Mundial 2026 ya comenzó";
       if (subtitle) subtitle.textContent = "La fiesta del fútbol está en marcha.";
-      if (liveMessage) liveMessage.textContent = "Vive cada partido, predice resultados y acompaña a tu selección.";
+      if (liveMessage) liveMessage.textContent = "Toca una tarjeta y entra directo a la experiencia.";
       return;
     }
 
     countdown?.classList.remove("is-live");
+    restoreCountdownLabels();
     if (title) title.textContent = "Cuenta regresiva";
     if (subtitle) subtitle.textContent = "Faltan para el inicio del Mundial 2026";
     if (liveMessage) liveMessage.textContent = "La emoción está por comenzar.";
+  }
+
+  function activateLiveCountdown() {
+    const countdown = document.getElementById("countdown");
+    const boxes = Array.from(document.querySelectorAll("#countdown .time-box"));
+    const liveCards = [
+      { value: "ELIGE", label: "Tu equipo", target: ".team-card" },
+      { value: "PREDICE", label: "Marcador", target: ".sim-card" },
+      { value: "JUEGA", label: "Quiz", target: ".quiz-card" },
+      { value: "MIRA", label: "Partidos", target: ".matches-card" }
+    ];
+
+    boxes.forEach((box, index) => {
+      const card = liveCards[index];
+      const number = box.querySelector(".time-num");
+      const label = box.querySelector(".time-label");
+      if (!card || !number || !label) return;
+
+      number.textContent = card.value;
+      label.textContent = card.label;
+      box.setAttribute("role", "button");
+      box.setAttribute("tabindex", "0");
+      box.setAttribute("aria-label", `Ir a ${card.label}`);
+
+      if (!box.dataset.liveTarget) {
+        box.addEventListener("click", () => {
+          document.querySelector(box.dataset.liveTarget)?.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+        box.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            document.querySelector(box.dataset.liveTarget)?.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+      }
+      box.dataset.liveTarget = card.target;
+    });
+
+    if (countdown) countdown.dataset.liveReady = "true";
+  }
+
+  function restoreCountdownLabels() {
+    const labels = ["Días", "Hrs", "Min", "Seg"];
+    document.querySelectorAll("#countdown .time-box").forEach((box, index) => {
+      const label = box.querySelector(".time-label");
+      if (label) label.textContent = labels[index] || "";
+      box.removeAttribute("role");
+      box.removeAttribute("tabindex");
+      box.removeAttribute("aria-label");
+    });
   }
 
   function updateSimulatorMessage() {
