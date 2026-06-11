@@ -1789,9 +1789,13 @@
   }
 
   @media (max-width: 430px) {
+    body {
+      font-size: 14px;
+    }
+
     .hero p {
       max-width: 330px;
-      font-size: 12px;
+      font-size: 14px;
       line-height: 1.65;
     }
 
@@ -1800,7 +1804,7 @@
     .btn,
     .ticker-track span,
     .clock {
-      font-size: 10px;
+      font-size: 12px;
     }
 
     .card-sub,
@@ -1809,7 +1813,7 @@
     .favorite-fixture-main,
     .sim-live-meta,
     .vibe-item p {
-      font-size: 12px;
+      font-size: 14px;
       line-height: 1.55;
     }
 
@@ -1828,18 +1832,18 @@
     .quiz-progress,
     .favorite-fixture-meta,
     .favorite-fixture-main small {
-      font-size: 11px;
+      font-size: 13px;
       line-height: 1.45;
     }
 
     .date small,
     .date em {
-      font-size: 10px;
+      font-size: 12px;
       line-height: 1.35;
     }
 
     .choice {
-      min-height: 48px;
+      min-height: 54px;
       height: auto;
       padding-block: 12px;
     }
@@ -1847,13 +1851,13 @@
     select,
     .wide-button,
     .btn {
-      min-height: 44px;
+      min-height: 48px;
     }
 
     .links a,
     .links span,
     .copyright,
     .quality {
-      font-size: 10px;
+      font-size: 12px;
     }
   }
