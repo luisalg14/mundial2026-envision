@@ -138,12 +138,26 @@
         home: 2,
         away: 0
       }
+    },
+    {
+      home: "Corea del Sur",
+      away: "Chequia",
+      homeCode: "KOR",
+      awayCode: "CZE",
+      status: "FT",
+      kickoff: "2026-06-11T21:00:00-05:00",
+      goals: {
+        home: 2,
+        away: 1
+      }
     }
   ];
 
   const flagUrls = {
     MEX: "https://flagcdn.com/w40/mx.png",
-    RSA: "https://flagcdn.com/w40/za.png"
+    RSA: "https://flagcdn.com/w40/za.png",
+    KOR: "https://flagcdn.com/w40/kr.png",
+    CZE: "https://flagcdn.com/w40/cz.png"
   };
 
   const monthIndexes = {
@@ -263,12 +277,15 @@
   function getRelevantMatch(matches, now = new Date()) {
     if (!matches.length) return currentSimMatch;
 
+    const matchDurationMs = 130 * 60 * 1000;
     const finalMatchKeys = new Set(fallbackFinalResults.map((fixture) => `${fixture.homeCode}-${fixture.awayCode}`));
     const currentIndex = matches.findIndex((match, index) => {
       const nextMatch = matches[index + 1];
-      const nextStart = nextMatch?.startsAt || new Date(match.startsAt.getTime() + (4 * 60 * 60 * 1000));
+      const estimatedEnd = new Date(match.startsAt.getTime() + matchDurationMs);
+      const nextStart = nextMatch?.startsAt || estimatedEnd;
+      const activeUntil = estimatedEnd < nextStart ? estimatedEnd : nextStart;
       const isFinal = finalMatchKeys.has(`${match.home}-${match.away}`);
-      return now >= match.startsAt && now < nextStart && !isFinal;
+      return now >= match.startsAt && now < activeUntil && !isFinal;
     });
 
     if (currentIndex >= 0) return matches[currentIndex];
@@ -327,6 +344,16 @@
     if (liveFixture) return liveFixture;
 
     return sortedFixtures.find((fixture) => new Date(fixture.kickoff) > now) || sortedFixtures[sortedFixtures.length - 1] || null;
+  }
+
+  function isLiveFixture(fixture) {
+    const liveStatuses = ["1H", "HT", "2H", "ET", "BT", "P", "SUSP", "INT", "LIVE"];
+    return liveStatuses.includes(fixture?.status);
+  }
+
+  function isFinalFixture(fixture) {
+    const finalStatuses = ["FT", "AET", "PEN"];
+    return finalStatuses.includes(fixture?.status);
   }
 
   function getFinalFixtures(fixtures) {
@@ -423,7 +450,7 @@
     renderRecentResults(data.fixtures);
 
     return {
-      selected: pickFixtureForNow(data.fixtures),
+      live: data.fixtures.find(isLiveFixture) || null,
       fixtures: data.fixtures
     };
   }
@@ -670,46 +697,10 @@
 
     if (!status) return;
 
-    status.textContent = "Actualizando";
-
-    try {
-      const realDay = await syncRealWorldCupDay();
-      const realFixture = realDay?.selected;
-      const finalStatuses = ["FT", "AET", "PEN"];
-
-      if (realFixture && !finalStatuses.includes(realFixture.status)) {
-        renderApiFixture(realFixture);
-        status.textContent = realFixture.status === "FT" ? "Finalizado" : realFixture.elapsed ? `${realFixture.elapsed}'` : "Oficial";
-        status.title = "Datos reales del Mundial 2026.";
-        return;
-      }
-
-      renderRecentResultsFallback("Los resultados recientes aparecerán cuando estén disponibles.");
-      refreshCurrentSimulatorMatch();
-      const params = new URLSearchParams({
-        date: getMatchApiDate(currentSimMatch),
-        home: currentSimMatch.home,
-        away: currentSimMatch.away
-      });
-      const response = await fetch(`${liveScoreConfig.endpoint}?${params.toString()}`);
-
-      if (!response.ok) throw new Error("Marcador no disponible en este momento.");
-
-      const data = await response.json();
-
-      if (!data.ok) {
-        status.textContent = data.mode === "demo" ? "Predicción activa" : "Por confirmar";
-        status.title = data.message || "El marcador en vivo se actualizará cuando esté disponible.";
-        return;
-      }
-
-      applyLiveScore(data);
-      status.textContent = data.status === "FT" ? "Finalizado" : data.elapsed ? `${data.elapsed}'` : "En vivo";
-    } catch (error) {
-      renderRecentResultsFallback("Los resultados recientes aparecerán cuando estén disponibles.");
-      status.textContent = "Por confirmar";
-      status.title = "El marcador en vivo se actualizará cuando esté disponible.";
-    }
+    renderRecentResultsFallback("Los resultados recientes aparecerán cuando estén disponibles.");
+    refreshCurrentSimulatorMatch();
+    status.textContent = "Predicción activa";
+    status.title = "El marcador cambiará según el horario de partidos.";
   }
 
   function applyLiveScore(fixture) {
