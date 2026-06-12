@@ -119,7 +119,7 @@
     home: "MEX",
     away: "RSA",
     date: "11 jun 2026",
-    time: "1:00 p.m. UTC-6",
+    time: "2:00 p.m. Colombia",
     group: "Grupo A",
     venue: "Estadio Azteca, Mexico City",
     homeFlag: "https://flagcdn.com/w160/mx.png",
@@ -133,7 +133,7 @@
       homeCode: "MEX",
       awayCode: "RSA",
       status: "FT",
-      kickoff: "2026-06-11T20:00:00-05:00",
+      kickoff: "2026-06-11T14:00:00-05:00",
       goals: {
         home: 2,
         away: 0
@@ -188,6 +188,51 @@
     if (meridiem === "a" && hour === 12) hour = 0;
 
     return new Date(Date.UTC(year, month, day, hour - utcOffset, minute));
+  }
+
+  function formatColombiaMatchDate(value) {
+    const date = value instanceof Date ? value : new Date(value);
+    const parts = new Intl.DateTimeFormat("en-CA", {
+      timeZone: "America/Bogota",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    }).formatToParts(date);
+    const year = parts.find((part) => part.type === "year")?.value;
+    const month = Number(parts.find((part) => part.type === "month")?.value || 1) - 1;
+    const day = Number(parts.find((part) => part.type === "day")?.value || 1);
+    const monthName = Object.keys(monthIndexes).find((key) => monthIndexes[key] === month) || "jun";
+
+    return `${day} ${monthName} ${year}`;
+  }
+
+  function formatColombiaMatchTime(value) {
+    const date = value instanceof Date ? value : new Date(value);
+    const parts = new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/Bogota",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true
+    }).formatToParts(date);
+    const hour = parts.find((part) => part.type === "hour")?.value || "0";
+    const minute = parts.find((part) => part.type === "minute")?.value || "00";
+    const dayPeriod = (parts.find((part) => part.type === "dayPeriod")?.value || "AM").toLowerCase();
+    const period = dayPeriod.startsWith("p") ? "p.m." : "a.m.";
+
+    return `${hour}:${minute} ${period} Colombia`;
+  }
+
+  function normalizeMatchScheduleToColombia() {
+    document.querySelectorAll(".match-list-full .match").forEach((match) => {
+      const date = match.querySelector(".date span");
+      const time = match.querySelector(".date small");
+      const startsAt = parseMatchDateTime(date?.textContent || "", time?.textContent || "");
+
+      if (!date || !time || !startsAt) return;
+
+      date.textContent = formatColombiaMatchDate(startsAt);
+      time.textContent = formatColombiaMatchTime(startsAt);
+    });
   }
 
   function getMatchApiDate(match) {
@@ -266,19 +311,10 @@
       };
     }
 
-    const date = new Intl.DateTimeFormat("es-CO", {
-      timeZone: "America/Bogota",
-      day: "2-digit",
-      month: "short",
-      year: "numeric"
-    }).format(kickoff);
-    const time = new Intl.DateTimeFormat("es-CO", {
-      timeZone: "America/Bogota",
-      hour: "numeric",
-      minute: "2-digit"
-    }).format(kickoff);
-
-    return { date, time: `${time} Colombia` };
+    return {
+      date: formatColombiaMatchDate(kickoff),
+      time: formatColombiaMatchTime(kickoff)
+    };
   }
 
   function pickFixtureForNow(fixtures, now = new Date()) {
@@ -590,6 +626,8 @@
     const awayName = document.getElementById("simAwayName");
     const meta = document.getElementById("simMatchMeta");
     const venue = document.getElementById("simVenue");
+    const homeScore = document.getElementById("score-home");
+    const awayScore = document.getElementById("score-away");
 
     if (homeFlag) {
       homeFlag.src = match.homeFlag;
@@ -603,6 +641,8 @@
     if (awayName) awayName.textContent = match.away;
     if (meta) meta.textContent = `${match.date} · ${match.time} · ${match.group}`;
     if (venue) venue.textContent = match.venue;
+    if (homeScore) homeScore.textContent = "0";
+    if (awayScore) awayScore.textContent = "0";
     updateSimulatorMessage();
   }
 
@@ -635,8 +675,9 @@
     try {
       const realDay = await syncRealWorldCupDay();
       const realFixture = realDay?.selected;
+      const finalStatuses = ["FT", "AET", "PEN"];
 
-      if (realFixture) {
+      if (realFixture && !finalStatuses.includes(realFixture.status)) {
         renderApiFixture(realFixture);
         status.textContent = realFixture.status === "FT" ? "Finalizado" : realFixture.elapsed ? `${realFixture.elapsed}'` : "Oficial";
         status.title = "Datos reales del Mundial 2026.";
@@ -862,6 +903,7 @@
       message.textContent = `Tu predicción quedó lista: ${champion} campeón del Mundial 2026.`;
     });
 
+    normalizeMatchScheduleToColombia();
     setupMatchPagination();
     initializeLiveSimulator();
     initQuiz();
