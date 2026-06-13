@@ -150,6 +150,30 @@
         home: 2,
         away: 1
       }
+    },
+    {
+      home: "Canadá",
+      away: "Bosnia y Herzegovina",
+      homeCode: "CAN",
+      awayCode: "BIH",
+      status: "FT",
+      kickoff: "2026-06-12T14:00:00-05:00",
+      goals: {
+        home: 1,
+        away: 1
+      }
+    },
+    {
+      home: "Estados Unidos",
+      away: "Paraguay",
+      homeCode: "USA",
+      awayCode: "PAR",
+      status: "FT",
+      kickoff: "2026-06-12T20:00:00-05:00",
+      goals: {
+        home: 4,
+        away: 1
+      }
     }
   ];
 
@@ -157,7 +181,19 @@
     MEX: "https://flagcdn.com/w40/mx.png",
     RSA: "https://flagcdn.com/w40/za.png",
     KOR: "https://flagcdn.com/w40/kr.png",
-    CZE: "https://flagcdn.com/w40/cz.png"
+    CZE: "https://flagcdn.com/w40/cz.png",
+    CAN: "https://flagcdn.com/w40/ca.png",
+    BIH: "https://flagcdn.com/w40/ba.png",
+    USA: "https://flagcdn.com/w40/us.png",
+    PAR: "https://flagcdn.com/w40/py.png"
+  };
+
+  const scheduleOverrides = {
+    "USA-PAR": {
+      startsAt: "2026-06-12T20:00:00-05:00",
+      date: "12 jun 2026",
+      time: "8:00 p.m. Colombia"
+    }
   };
 
   const monthIndexes = {
@@ -240,13 +276,19 @@
     document.querySelectorAll(".match-list-full .match").forEach((match) => {
       const date = match.querySelector(".date span");
       const time = match.querySelector(".date small");
-      const startsAt = parseMatchDateTime(date?.textContent || "", time?.textContent || "");
+      const matchData = readMatchCard(match);
+      const override = getScheduleOverride(matchData);
+      const startsAt = override.startsAt ? new Date(override.startsAt) : parseMatchDateTime(date?.textContent || "", time?.textContent || "");
 
       if (!date || !time || !startsAt) return;
 
-      date.textContent = formatColombiaMatchDate(startsAt);
-      time.textContent = formatColombiaMatchTime(startsAt);
+      date.textContent = override.date || formatColombiaMatchDate(startsAt);
+      time.textContent = override.time || formatColombiaMatchTime(startsAt);
     });
+  }
+
+  function getScheduleOverride(match) {
+    return scheduleOverrides[`${match.home}-${match.away}`] || {};
   }
 
   function getMatchApiDate(match) {
@@ -266,10 +308,14 @@
   function getScheduledMatches() {
     return Array.from(document.querySelectorAll(".match-list-full .match"))
       .map(readMatchCard)
-      .map((match) => ({
-        ...match,
-        startsAt: parseMatchDateTime(match.date, match.time)
-      }))
+      .map((match) => {
+        const override = getScheduleOverride(match);
+        return {
+          ...match,
+          ...override,
+          startsAt: override.startsAt ? new Date(override.startsAt) : parseMatchDateTime(match.date, match.time)
+        };
+      })
       .filter((match) => match.startsAt instanceof Date && !Number.isNaN(match.startsAt.getTime()))
       .sort((a, b) => a.startsAt - b.startsAt);
   }
